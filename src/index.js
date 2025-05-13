@@ -81,7 +81,10 @@ const RootQuery = new GraphQLObjectType({
   },
 })
 
+let nextId = books.length + 1; // This is the next ID to be used for the new book
+
 // This is a Input Object Type, which is used to define the input data for the mutation
+// This is the POST request body equivalent
 const AddBookInputType = new GraphQLInputObjectType({
   name: 'AddBookInput',
   description: 'Campos obrigatórios para adicionar um livro',
@@ -91,7 +94,16 @@ const AddBookInputType = new GraphQLInputObjectType({
   }
 });
 
-let nextId = books.length + 1; // This is the next ID to be used for the new book
+// This is the update Input
+// This is the PATCH request body equivalent
+const UpdateBookInputType = new GraphQLInputObjectType({
+  name: 'UpdateBookInput',
+  description: 'Campos obrigatórios para atualizar um livro',
+  fields: {
+    title: { type: GraphQLString },
+    author: { type: GraphQLString },
+  }
+});
 
 // Mutation Root
 // This is the root mutation object fields
@@ -117,6 +129,24 @@ const RootMutation = new GraphQLObjectType({
         };
         books.push(newBook); // Add the new book to the books array
         return newBook; // Return the new book
+      }
+    },
+    updateBook: {
+      type: BookType,
+      description: 'Atualizar um livro',
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+        input: {type: new GraphQLNonNull(UpdateBookInputType)},
+      },
+      resolve: (parent, {id, input}) => {
+        const book = books.find(book => book.id == id); // Find the book by ID
+        if (!book) {
+          throw new Error('Livro não encontrado'); // If the book is not found, throw an error
+        }
+        // If the book is found, update the book with the input data
+        book.title = input.title || book.title; // Update the title if it is provided
+        book.author = input.author || book.author; // Update the author if it is provided
+        return book; // Return the updated book
       }
     }
   }
