@@ -1,0 +1,25 @@
+{
+  "name": "lab-express-graphql",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/franklinsales/lab-express-graphql.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/franklinsales/lab-express-graphql/issues"
+  },
+  "homepage": "https://github.com/franklinsales/lab-express-graphql#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^5.1.0",
+    "express-graphql": "^0.12.0",
+    "graphql": "^15.10.1"
+  }
+}
