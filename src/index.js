@@ -81,6 +81,7 @@ const RootQuery = new GraphQLObjectType({
   },
 })
 
+// This is a Input Object Type, which is used to define the input data for the mutation
 const AddBookInputType = new GraphQLInputObjectType({
   name: 'AddBookInput',
   description: 'Campos obrigatórios para adicionar um livro',
@@ -92,16 +93,23 @@ const AddBookInputType = new GraphQLInputObjectType({
 
 let nextId = books.length + 1; // This is the next ID to be used for the new book
 
+// Mutation Root
+// This is the root mutation object fields
 const RootMutation = new GraphQLObjectType({
-  name: 'Mutation',
-  fields: {
-    addBook: {
-      type: BookType,
+  name: 'Mutation', // This is the name of the mutation object
+  fields: { // This is the fields of the mutation object
+    // The fields of the mutation object are used to define the entry points for the GraphQL API
+    addBook: { // This is a entry point
+      type: BookType, // This is the type of the data that will be returned
       description: 'Adicionar um livro',
-      args: {
+      args: { // This is the arguments passed to the field
         input: { type: new GraphQLNonNull(AddBookInputType) },
       },
-      resolve: (parent, {input}) => {
+      resolve: (parent, {input}) => { // The resolve function is used to handle the mutation
+        // The parent object is not used in this case, because we don't have a parent object
+        // The input argument is an object that contains the input data for the mutation
+
+        // From here, we can use the input data to create a new book
         const newBook = {
           id: String(nextId++),
           title: input.title,
