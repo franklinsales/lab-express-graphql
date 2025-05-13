@@ -19,6 +19,14 @@ export const RootQuery = new GraphQLObjectType({
       type: BookType,
       args: { id: { type: GraphQLID } },
       resolve: (_, args) => books.find(book => book.id == args.id),
+    },
+    searchBooks: {
+      type: new GraphQLList(BookType),
+      args: { title: { type: GraphQLString } },
+      resolve: (_, args) => {
+        if (!args.title) return books;
+        return books.filter(book => book.title.toLowerCase().includes(args.title.toLowerCase()));
+      }
     }
   }
 });
